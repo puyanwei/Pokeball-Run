@@ -22,13 +22,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         pokeball = SKSpriteNode(imageNamed: "pokeball")
-        pokeball.position = CGPoint(x: self.frame.size.width / 2, y: pokeball.size.height/2 + 20)
+        pokeball.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
         self.addChild(pokeball)
+        
+        pokeball.physicsBody = SKPhysicsBody(texture: pokeball.texture!,
+                                               size: pokeball.texture!.size())
+        pokeball.physicsBody?.usesPreciseCollisionDetection = true
+        
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
         
-        level = SKLabelNode(text: "Level: Pokeball")
+        level = SKLabelNode(text: "Level: Makers4Lyf")
         level.position = CGPoint(x:200, y: self.frame.size.height - 60)
         level.fontName = "AmericanTypewriter-Bold"
         level.fontSize = 36
@@ -40,11 +45,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
             if let accelerometerData = data {
                 let acceleration = accelerometerData.acceleration
-                self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
-                self.yAcceleration = CGFloat(acceleration.y) * 0.75 + self.yAcceleration * 0.25
+                self.xAcceleration = CGFloat(acceleration.x) * 0.50 + self.xAcceleration * 0.50
+                self.yAcceleration = CGFloat(acceleration.y) * 0.50 + self.yAcceleration * 0.50
             }
         }
-        
     }
     
     override func didSimulatePhysics() {
