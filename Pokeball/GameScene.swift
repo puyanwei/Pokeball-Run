@@ -12,6 +12,7 @@ import CoreMotion
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    
     var pokeball: SKSpriteNode!
     var level: SKLabelNode!
     
