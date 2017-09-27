@@ -12,6 +12,8 @@ import GameplayKit
 
 class GameViewController: UIViewController {
     
+    var isIdleTimerDisabled: Bool { return true }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
