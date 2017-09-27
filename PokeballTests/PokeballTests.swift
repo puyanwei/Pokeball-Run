@@ -11,19 +11,27 @@ import XCTest
 
 class PokeballTests: XCTestCase {
     
+    var gameScene:GameScene!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        gameScene = GameScene()
+        
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        gameScene = nil
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let childNode = gameScene.childNode(withName: "pokeball")
+        print("Hello!")
+        print(gameScene.childNode)
+        if childNode != nil {
+            XCTAssertTrue(true)
+        }
     }
     
     func testPerformanceExample() {

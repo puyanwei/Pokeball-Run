@@ -15,7 +15,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pokeball: SKSpriteNode!
     var level: SKLabelNode!
     var scoreLabel: SKLabelNode?
+    var monTimer : Timer?
     
+    var gameInt = 10
+    var gameTimer = Timer()
+    
+
     let motionManager = CMMotionManager()
     var xAcceleration: CGFloat = 0
     var yAcceleration: CGFloat = 0
@@ -32,7 +37,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     pokeball?.physicsBody?.categoryBitMask = pokeballCategory
     pokeball?.physicsBody?.contactTestBitMask = monCategory
     pokeball.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
-    
     self.addChild(pokeball)
     
     pokeball.physicsBody = SKPhysicsBody(texture: pokeball.texture!,
@@ -46,18 +50,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             mon.physicsBody?.categoryBitMask = monCategory
             mon.physicsBody?.contactTestBitMask = pokeballCategory
             addChild(mon)
+
+            let height = frame.height
+            let width = frame.width
             
-                
-                let height = frame.height
-                let width = frame.width
-                
-                let randomPosition = CGPoint(x:CGFloat(arc4random()).truncatingRemainder(dividingBy: width),
-                                             y: CGFloat(arc4random()).truncatingRemainder(dividingBy: height))
-            
-            
-                mon.position = randomPosition
-            
-            
+            let randomPosition = CGPoint(x:CGFloat(arc4random()).truncatingRemainder(dividingBy: width),
+                                         y: CGFloat(arc4random()).truncatingRemainder(dividingBy: height))
+
+            mon.position = randomPosition
         }
         
         func createRocket() {
@@ -91,12 +91,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     self.addChild(level)
     
-    createMon()
-    createMon()
-    createMon()
-    createMon()
-    createRocket()
-    
+        monTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
+           createMon()
+        })
+
         
     motionManager.accelerometerUpdateInterval = 0.2
     motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
@@ -160,6 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     }
     
+
 }
 
 
