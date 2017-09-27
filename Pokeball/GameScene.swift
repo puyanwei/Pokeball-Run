@@ -90,6 +90,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     level.fontColor = UIColor.white
     
     self.addChild(level)
+        
+        createRocket()
     
         monTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
            createMon()
