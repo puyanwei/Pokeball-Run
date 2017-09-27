@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let pokeballCategory : UInt32 = 0x1 << 1
     let monCategory : UInt32 = 0x1 << 2
+    let rocketCategory: UInt32 = 0x1 << 3
     
     var score = 0
     
@@ -58,6 +59,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             mon.position = randomPosition
         }
+        
+        func createRocket() {
+            let rocket = SKSpriteNode(imageNamed: "rocket")
+            rocket.physicsBody = SKPhysicsBody(rectangleOf: rocket.size)
+            rocket.physicsBody?.categoryBitMask = rocketCategory
+            rocket.physicsBody?.contactTestBitMask = pokeballCategory
+            addChild(rocket)
+            
+            
+            let height = frame.height
+            let width = frame.width
+            
+            let randomPosition = CGPoint(x:CGFloat(arc4random()).truncatingRemainder(dividingBy: width),
+                                         y: CGFloat(arc4random()).truncatingRemainder(dividingBy: height))
+            
+            
+            rocket.position = randomPosition
+            
+            
+        }
     
     self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
     self.physicsWorld.contactDelegate = self
@@ -73,6 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
            createMon()
         })
+
         
     motionManager.accelerometerUpdateInterval = 0.2
     motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
@@ -104,17 +126,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-        score += 1
-        scoreLabel?.text = "Score: \(score)"
-        
         if contact.bodyA.categoryBitMask == monCategory {
             contact.bodyA.node?.removeFromParent()
+            score += 1
+            scoreLabel?.text = "Score: \(score)"
+            
         }
         if contact.bodyB.categoryBitMask == monCategory {
             contact.bodyB.node?.removeFromParent()
+            score += 1
+            scoreLabel?.text = "Score: \(score)"
+            
+        }
+        if contact.bodyA.categoryBitMask == rocketCategory {
+//            contact.bodyA.node?.removeFromParent()
+            gameOver()
+        }
+        if contact.bodyB.categoryBitMask == rocketCategory {
+//            contact.bodyB.node?.removeFromParent()
+            gameOver()
         }
     }
     
+    func gameOver() {
+        scene?.isPaused = true
+
+        let yourScore = SKLabelNode(text: "Final score: \(score)")
+        yourScore.position = CGPoint(x: 400, y: 800)
+        yourScore.fontSize = 100
+        addChild(yourScore)
+
+    }
     
+
 }
+
 
