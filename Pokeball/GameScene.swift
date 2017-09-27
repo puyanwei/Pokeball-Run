@@ -26,6 +26,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score = 0
     
     override func didMove(to view: SKView) {
+    
+    
         
     pokeball = SKSpriteNode(imageNamed: "pokeball")
     pokeball?.physicsBody?.categoryBitMask = pokeballCategory
@@ -44,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             mon.physicsBody = SKPhysicsBody(rectangleOf: mon.size)
             mon.physicsBody?.categoryBitMask = monCategory
             mon.physicsBody?.contactTestBitMask = pokeballCategory
-            addChild(mon)
+            self.addChild(mon)
             
                 
                 let height = frame.height

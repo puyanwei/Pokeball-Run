@@ -22,15 +22,34 @@ class PokeballTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        gameScene = nil
+//        gameScene = nil
     }
     
-    func testExample() {
-        let childNode = gameScene.childNode(withName: "pokeball")
+    func testPokeball() {
+        let pokeball = GameScene()
         print("Hello!")
-        print(gameScene.childNode)
-        if childNode != nil {
-            XCTAssertTrue(true)
+        print(pokeball)
+//        if pokeball != nil {
+        XCTAssertNotNil(pokeball)
+//        } else {
+//            print("This test does not pass! You suck!")
+//        }
+    }
+    
+    
+    func testScoreLabel() {
+        let scoreLabel = gameScene.childNode(withName: "ScoreLabel")
+        print("Hello!3")
+        print(gameScene.scoreLabel)
+            XCTAssertNil(scoreLabel)
+    }
+    
+    func testLevel() {
+        let level = gameScene.childNode(withName: "Level: Makers4Lyf")
+        print("Hello!2")
+        print(gameScene.level)
+        if level != nil {
+            XCTAssert(true)
         }
     }
     
