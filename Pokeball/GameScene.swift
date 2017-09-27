@@ -31,25 +31,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                            size: pokeball.texture!.size())
     pokeball.physicsBody?.usesPreciseCollisionDetection = true
     
-        func createMon() {
-            let mon = SKSpriteNode(imageNamed: "pikachu")
-            addChild(mon)
-            
-            let maxY = self.frame.height / 2 - mon.size.height / 2
-            let minY = -self.frame.height / 2 + mon.size.height / 2
-            
-            let rangeY = maxY - minY
-            let monY = maxY - CGFloat(arc4random_uniform(UInt32(rangeY)))
-            
-            let maxX = self.frame.width/2 - mon.size.width/2
-            let minX = -self.frame.width/2 + mon.size.width/2
-            
-            let rangeX = maxX - minX
-            let monX = maxX - CGFloat(arc4random_uniform(UInt32(rangeX)))
-            
-            mon.position = CGPoint(x: monX, y: monY)
-        }
     
+        createMon()
+        createMon()
+        createMon()
+        createMon()
+        
+        
     self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
     self.physicsWorld.contactDelegate = self
     
@@ -60,11 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     level.fontColor = UIColor.white
     
     self.addChild(level)
-    
-    createMon()
-    createMon()
-    createMon()
-    createMon()
+        
         
     motionManager.accelerometerUpdateInterval = 0.2
     motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
@@ -76,18 +60,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
 }
-
+    func createMon() {
+        
+        let height = frame.height
+        let width = frame.width
+        
+        let randomPosition = CGPoint(x:CGFloat(arc4random()).truncatingRemainder(dividingBy: width),
+                                     y: CGFloat(arc4random()).truncatingRemainder(dividingBy: height))
+        //
+        let mon = SKSpriteNode(imageNamed: "pikachu")
+        mon.position = randomPosition
+        addChild(mon)
+    }
+    
+    
     
     override func didSimulatePhysics() {
-        pokeball.position.x += xAcceleration * 50
-        pokeball.position.y += yAcceleration * 50
-        
-        if pokeball.position.x < -20 {
-            pokeball.position = CGPoint(x: pokeball.position.x, y: pokeball.position.y)
-        }else if pokeball.position.x > self.size.width + 20 {
-            pokeball.position = CGPoint(x: pokeball.position.x, y: pokeball.position.y)
-        }
-        
+        pokeball.position.x += xAcceleration * 35
+        pokeball.position.y += yAcceleration * 35
     }
     
     override func update(_ currentTime: TimeInterval) {
