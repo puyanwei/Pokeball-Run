@@ -14,15 +14,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var pokeball: SKSpriteNode!
     var level: SKLabelNode!
+    var scoreLabel: SKLabelNode?
     
     let motionManager = CMMotionManager()
     var xAcceleration: CGFloat = 0
     var yAcceleration: CGFloat = 0
     
+    let pokeballCategory : UInt32 = 0x1 << 1
+    let monCategory : UInt32 = 0x1 << 2
+    
+    var score = 0
+    
     override func didMove(to view: SKView) {
         
     pokeball = SKSpriteNode(imageNamed: "pokeball")
-    
+    pokeball?.physicsBody?.categoryBitMask = pokeballCategory
+    pokeball?.physicsBody?.contactTestBitMask = monCategory
     pokeball.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
     
     self.addChild(pokeball)
@@ -31,8 +38,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                            size: pokeball.texture!.size())
     pokeball.physicsBody?.usesPreciseCollisionDetection = true
     
+    scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode
         func createMon() {
             let mon = SKSpriteNode(imageNamed: "pikachu")
+            mon.physicsBody = SKPhysicsBody(rectangleOf: mon.size)
+            mon.physicsBody?.categoryBitMask = monCategory
+            mon.physicsBody?.contactTestBitMask = pokeballCategory
             addChild(mon)
             
             let maxY = self.frame.height / 2 - mon.size.height / 2
@@ -79,8 +90,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     
     override func didSimulatePhysics() {
-        pokeball.position.x += xAcceleration * 50
-        pokeball.position.y += yAcceleration * 50
+        pokeball.position.x += xAcceleration * 35
+        pokeball.position.y += yAcceleration * 35
         
         if pokeball.position.x < -20 {
             pokeball.position = CGPoint(x: pokeball.position.x, y: pokeball.position.y)
@@ -92,6 +103,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        score += 1
+        scoreLabel?.text = "Score: \(score)"
+        
+        if contact.bodyA.categoryBitMask == monCategory {
+            contact.bodyA.node?.removeFromParent()
+        }
+        if contact.bodyB.categoryBitMask == monCategory {
+            contact.bodyB.node?.removeFromParent()
+        }
     }
 }
 
