@@ -16,6 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var level: SKLabelNode!
     var scoreLabel: SKLabelNode?
     var monTimer : Timer?
+    var rocketTimer : Timer?
     
     var gameInt = 10
     var gameTimer = Timer()
@@ -90,9 +91,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     level.fontColor = UIColor.white
     
     self.addChild(level)
+        rocketTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (timer) in
+            createRocket()
+        })
         
-        createRocket()
-    
         monTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
            createMon()
         })
