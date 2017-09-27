@@ -46,19 +46,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             mon.physicsBody?.contactTestBitMask = pokeballCategory
             addChild(mon)
             
-            let maxY = self.frame.height / 2 - mon.size.height / 2
-            let minY = -self.frame.height / 2 + mon.size.height / 2
+                
+                let height = frame.height
+                let width = frame.width
+                
+                let randomPosition = CGPoint(x:CGFloat(arc4random()).truncatingRemainder(dividingBy: width),
+                                             y: CGFloat(arc4random()).truncatingRemainder(dividingBy: height))
             
-            let rangeY = maxY - minY
-            let monY = maxY - CGFloat(arc4random_uniform(UInt32(rangeY)))
             
-            let maxX = self.frame.width/2 - mon.size.width/2
-            let minX = -self.frame.width/2 + mon.size.width/2
+                mon.position = randomPosition
             
-            let rangeX = maxX - minX
-            let monX = maxX - CGFloat(arc4random_uniform(UInt32(rangeX)))
             
-            mon.position = CGPoint(x: monX, y: monY)
         }
     
     self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
