@@ -20,7 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameInt = 10
     var gameTimer = Timer()
-    
+    var yourScore : SKLabelNode?
 
     let motionManager = CMMotionManager()
     var xAcceleration: CGFloat = 0
@@ -57,13 +57,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level.fontColor = UIColor.white
         
         self.addChild(level)
-            rocketTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (timer) in
-                self.createRocket()
-            })
         
-            monTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
-               self.createMon()
-            })
+        startTimers ()
+        createRocket()
+        createMon()
         
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
@@ -106,6 +103,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rocket.position = randomPosition
     }
     
+    func startTimers () {
+        rocketTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (timer) in
+            self.createRocket()
+        })
+        
+        monTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
+            self.createMon()
+        })
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        pokeball?.physicsBody?.applyForce(CGVector(dx: 0, dy: 100_000))
+        
+        let touch = touches.first
+        if let location = touch?.location(in: self){
+            let theNodes = nodes(at: location)
+            
+            for node in theNodes {
+                if node.name == "ash" {
+                    //Restart Game
+                    score = 0
+                    node.removeFromParent()
+                    yourScore?.removeFromParent()
+                    scene?.isPaused = false
+                    scoreLabel?.text = "Score: \(score)"
+                    startTimers()
+                }
+                
+            }
+        }
+    }
     
     override func didSimulatePhysics() {
         pokeball.position.x += xAcceleration * 35
@@ -142,14 +170,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameOver() {
         scene?.isPaused = true
-
-        let yourScore = SKLabelNode(text: "Final score: \(score)")
-        yourScore.position = CGPoint(x: 400, y: 800)
-        yourScore.fontSize = 100
-        addChild(yourScore)
-
+        
+        monTimer?.invalidate()
+        rocketTimer?.invalidate()
+        
+        yourScore = SKLabelNode(text: "Final score: \(score)")
+        yourScore?.position = CGPoint(x: 400, y: 800)
+        yourScore?.fontSize = 100
+        if yourScore != nil {
+            addChild(yourScore!)
+        }
+        
+        
+        let ashButton = SKSpriteNode(imageNamed: "ash")
+        ashButton.position = CGPoint(x: 360, y: 500)
+        ashButton.name = "ash"
+        addChild(ashButton)
+        
     }
-
 }
 
 
