@@ -26,7 +26,7 @@ class PokeballTests: XCTestCase {
     }
     
     func testExample() {
-        let childNode = gameScene.childNode(withName: "pokeball")
+        let childNode = gameScene.childNode(withName:"pokeball")
         print("Hello!")
         print(gameScene.childNode)
         if childNode != nil {
