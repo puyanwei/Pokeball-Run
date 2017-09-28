@@ -135,7 +135,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if node.name == "ash" {
                     //Restart Game
                     score = 0
-                    node.removeFromParent()
+                    self.removeAllChildren()
+                    createPokeball()
                     yourScore?.removeFromParent()
                     scene?.isPaused = false
                     scoreLabel?.text = "Score: \(score)"
