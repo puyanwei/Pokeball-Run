@@ -114,7 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        pokeball?.physicsBody?.applyForce(CGVector(dx: 0, dy: 100_000))
+        pokeball?.physicsBody?.applyForce(CGVector(dx: 0, dy: 0))
         
         let touch = touches.first
         if let location = touch?.location(in: self){
