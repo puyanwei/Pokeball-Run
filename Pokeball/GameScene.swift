@@ -38,6 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pokeball?.physicsBody?.categoryBitMask = pokeballCategory
         pokeball?.physicsBody?.contactTestBitMask = monCategory
         pokeball.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
+        pokeball.size = CGSize(width: 50, height: 50)
         self.addChild(pokeball)
         
         pokeball.physicsBody = SKPhysicsBody(texture: pokeball.texture!,
@@ -76,6 +77,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mon.physicsBody = SKPhysicsBody(rectangleOf: mon.size)
         mon.physicsBody?.categoryBitMask = monCategory
         mon.physicsBody?.contactTestBitMask = pokeballCategory
+        mon.size = CGSize(width: 60, height: 60)
         addChild(mon)
         
         let height = frame.height
@@ -92,6 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rocket.physicsBody = SKPhysicsBody(rectangleOf: rocket.size)
         rocket.physicsBody?.categoryBitMask = rocketCategory
         rocket.physicsBody?.contactTestBitMask = pokeballCategory
+        rocket.size = CGSize(width: 70, height: 70)
         addChild(rocket)
         
         let height = frame.height
