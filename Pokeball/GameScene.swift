@@ -9,6 +9,8 @@
 import SpriteKit
 import GameplayKit
 import CoreMotion
+import UIKit
+import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -29,6 +31,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let pokeballCategory : UInt32 = 0x1 << 1
     let monCategory : UInt32 = 0x1 << 2
     let rocketCategory: UInt32 = 0x1 << 3
+    
+    var player = AVAudioPlayer()
     
     var score = 0
     
@@ -151,6 +155,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if contact.bodyA.categoryBitMask == monCategory {
             contact.bodyA.node?.removeFromParent()
+        
+            var pikaSoundEffect: AVAudioPlayer?
+            
+            let path = Bundle.main.path(forResource: "pika.wav", ofType:nil)!
+            let url = URL(fileURLWithPath: path)
+            
+            do {
+                pikaSoundEffect = try AVAudioPlayer(contentsOf: url)
+                pikaSoundEffect?.play()
+            } catch {
+                // couldn't load file :(
+            }
+
+           
             score += 1
             scoreLabel?.text = "Score: \(score)"
             

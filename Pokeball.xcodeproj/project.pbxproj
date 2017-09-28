@@ -37,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D9709F71F7D5D110099F77C /* pika.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pika.wav; sourceTree = "<group>"; };
+		3D9709F81F7D5D1E0099F77C /* pikachu.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pikachu.wav; sourceTree = "<group>"; };
 		A90FFCE21F7A835E000B4B1D /* Pokeball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokeball.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90FFCE51F7A835E000B4B1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A90FFCE71F7A835E000B4B1D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -112,6 +114,8 @@
 				A90FFCF21F7A835E000B4B1D /* Assets.xcassets */,
 				A90FFCF41F7A835E000B4B1D /* LaunchScreen.storyboard */,
 				A90FFCF71F7A835E000B4B1D /* Info.plist */,
+				3D9709F81F7D5D1E0099F77C /* pikachu.wav */,
+				3D9709F71F7D5D110099F77C /* pika.wav */,
 			);
 			path = Pokeball;
 			sourceTree = "<group>";
