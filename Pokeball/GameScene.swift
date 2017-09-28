@@ -94,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rocket.physicsBody = SKPhysicsBody(rectangleOf: rocket.size)
         rocket.physicsBody?.categoryBitMask = rocketCategory
         rocket.physicsBody?.contactTestBitMask = pokeballCategory
-        rocket.size = CGSize(width: 70, height: 70)
+        //rocket.size = CGSize(width: 70, height: 70)
         addChild(rocket)
         
         let height = frame.height
@@ -161,6 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scoreLabel?.text = "Score: \(score)"
             
         }
+        
         if contact.bodyA.categoryBitMask == rocketCategory {
 //            contact.bodyA.node?.removeFromParent()
             gameOver()
@@ -169,6 +170,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            contact.bodyB.node?.removeFromParent()
             gameOver()
         }
+        
+        
     }
     
     func gameOver() {
