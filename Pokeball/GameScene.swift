@@ -34,34 +34,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
-        pokeball = SKSpriteNode(imageNamed: "pokeball")
-        pokeball?.physicsBody?.categoryBitMask = pokeballCategory
-        pokeball?.physicsBody?.contactTestBitMask = monCategory
-        pokeball.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
-        pokeball.size = CGSize(width: 50, height: 50)
-        self.addChild(pokeball)
-        
-        pokeball.physicsBody = SKPhysicsBody(texture: pokeball.texture!,
-                                               size: pokeball.texture!.size())
-        pokeball.physicsBody?.usesPreciseCollisionDetection = true
+        createPokeball ()
         
         scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode
 
-        
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
-        
-        level = SKLabelNode(text: "Level: Makers4Lyf")
-        level.position = CGPoint(x:200, y: self.frame.size.height - 60)
-        level.fontName = "AmericanTypewriter-Bold"
-        level.fontSize = 36
-        level.fontColor = UIColor.white
-        
-        self.addChild(level)
         
         startTimers ()
         createRocket()
         createMon()
+        title()
         
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
@@ -72,6 +55,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+   
+    func createPokeball () {
+        pokeball = SKSpriteNode(imageNamed: "pokeball")
+        pokeball?.physicsBody?.categoryBitMask = pokeballCategory
+        pokeball?.physicsBody?.contactTestBitMask = monCategory
+        pokeball.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
+        pokeball.size = CGSize(width: 50, height: 50)
+        self.addChild(pokeball)
+        
+        pokeball.physicsBody = SKPhysicsBody(texture: pokeball.texture!,
+                                             size: pokeball.texture!.size())
+        pokeball.physicsBody?.usesPreciseCollisionDetection = true
+    }
+    
+    
+    func title() {
+        level = SKLabelNode(text: "Level: Makers4Lyf")
+        level.position = CGPoint(x:200, y: self.frame.size.height - 60)
+        level.fontName = "AmericanTypewriter-Bold"
+        level.fontSize = 36
+        level.fontColor = UIColor.white
+        
+        self.addChild(level)
+    }
+    
     func createMon() {
         let mon = SKSpriteNode(imageNamed: "pikachu")
         mon.physicsBody = SKPhysicsBody(rectangleOf: mon.size)
@@ -141,6 +149,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didSimulatePhysics() {
         pokeball.position.x += xAcceleration * 35
         pokeball.position.y += yAcceleration * 35
+        
+        if pokeball.position.x < -20 {
+            pokeball.position = CGPoint(x: self.size.width + 20, y: pokeball.position.y)
+        }else if pokeball.position.x > self.size.width + 20 {
+            pokeball.position = CGPoint(x: -20, y: pokeball.position.y)
+        }
+        
+        if pokeball.position.y < -20 {
+            pokeball.position = CGPoint(x: pokeball.position.x, y: self.size.height + 20)
+        }else if pokeball.position.y > self.size.height + 20 {
+            pokeball.position = CGPoint(x:pokeball.position.x , y: -20)
+        }
+        
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
