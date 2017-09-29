@@ -39,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createPokeball ()
         
         scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode
+        scoreLabel?.zPosition = 1
       
 
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -70,6 +71,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pokeball.physicsBody = SKPhysicsBody(texture: pokeball.texture!,
                                              size: pokeball.texture!.size())
         pokeball.physicsBody?.usesPreciseCollisionDetection = true
+        
+        pokeball.zPosition = 1
     }
     
     
@@ -81,6 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level.fontColor = UIColor.white
         
         self.addChild(level)
+        
+        level.zPosition = 1
     }
     
     func createMon() {
@@ -98,6 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                      y: CGFloat(arc4random()).truncatingRemainder(dividingBy: height))
         
         mon.position = randomPosition
+        mon.zPosition = 1
     }
     
     func createRocket() {
@@ -214,6 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         yourScore = SKLabelNode(text: "Final score: \(score)")
         yourScore?.position = CGPoint(x: 400, y: 800)
+        yourScore?.zPosition = 1
         yourScore?.fontSize = 100
         if yourScore != nil {
             addChild(yourScore!)
@@ -223,6 +230,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ashButton = SKSpriteNode(imageNamed: "ash")
         ashButton.position = CGPoint(x: 360, y: 500)
         ashButton.name = "ash"
+        ashButton.zPosition = 1
         addChild(ashButton)
         
     }
