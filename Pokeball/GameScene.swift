@@ -17,10 +17,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode?
     var monTimer : Timer?
     var rocketTimer : Timer?
-    
+    var isIdleTimerDisabled: Bool { return true }
+    var yourScore : SKLabelNode?
+
     var gameInt = 10
     var gameTimer = Timer()
-    var yourScore : SKLabelNode?
+   
 
     let motionManager = CMMotionManager()
     var xAcceleration: CGFloat = 0
@@ -37,13 +39,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createPokeball ()
         
         scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode
+      
 
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
         
+        
+
         startTimers ()
-        createRocket()
-        createMon()
         title()
         
         motionManager.accelerometerUpdateInterval = 0.2
@@ -61,7 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pokeball?.physicsBody?.categoryBitMask = pokeballCategory
         pokeball?.physicsBody?.contactTestBitMask = monCategory
         pokeball.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
-        pokeball.size = CGSize(width: 50, height: 50)
+//        pokeball.size = CGSize(width: 50, height: 50)
         self.addChild(pokeball)
         
         pokeball.physicsBody = SKPhysicsBody(texture: pokeball.texture!,
@@ -85,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mon.physicsBody = SKPhysicsBody(rectangleOf: mon.size)
         mon.physicsBody?.categoryBitMask = monCategory
         mon.physicsBody?.contactTestBitMask = pokeballCategory
-        mon.size = CGSize(width: 60, height: 60)
+//        mon.size = CGSize(width: 60, height: 60)
         addChild(mon)
         
         let height = frame.height
@@ -112,6 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                      y: CGFloat(arc4random()).truncatingRemainder(dividingBy: height))
         
         rocket.position = randomPosition
+        rocket.zPosition = 1
     }
     
     func startTimers () {
@@ -122,7 +126,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             self.createMon()
         })
-    }
+
+}
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         pokeball?.physicsBody?.applyForce(CGVector(dx: 0, dy: 0))
@@ -134,13 +139,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for node in theNodes {
                 if node.name == "ash" {
                     //Restart Game
-                    score = 0
+// 
                     self.removeAllChildren()
-                    createPokeball()
                     yourScore?.removeFromParent()
+                    self.removeAllActions()
+                    self.scene?.removeFromParent()
                     scene?.isPaused = false
+                    yourScore?.removeFromParent()
+                    score = 0
                     scoreLabel?.text = "Score: \(score)"
+//                    bgImage
                     startTimers()
+                    createPokeball()
                 }
                 
             }
@@ -186,11 +196,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if contact.bodyA.categoryBitMask == rocketCategory {
-//            contact.bodyA.node?.removeFromParent()
             gameOver()
         }
         if contact.bodyB.categoryBitMask == rocketCategory {
-//            contact.bodyB.node?.removeFromParent()
             gameOver()
         }
         
@@ -199,6 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameOver() {
         scene?.isPaused = true
+//        start = true
         
         monTimer?.invalidate()
         rocketTimer?.invalidate()
