@@ -16,6 +16,7 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "pokeback")!)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'

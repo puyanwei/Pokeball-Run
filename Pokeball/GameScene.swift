@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var pokeball: SKSpriteNode!
     var level: SKLabelNode!
-    var scoreLabel: SKLabelNode?
+    var scoreLabel: SKLabelNode!
     var monTimer : Timer?
     var rocketTimer : Timer?
     var isIdleTimerDisabled: Bool { return true }
@@ -38,18 +38,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         createPokeball ()
         
-        scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode
-        scoreLabel?.zPosition = 1
-      
-
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
-        
-        
 
         startTimers ()
         title()
-        
+        background ()
+        label ()
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
             if let accelerometerData = data {
@@ -60,6 +55,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
    
+    func label() {
+        scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode
+        scoreLabel?.zPosition = 1
+        scoreLabel?.fontName = "AmericanTypewriter-Bold"
+        scoreLabel?.fontSize = 36
+        scoreLabel?.fontColor = UIColor.white
+    }
+    
+    
+    func background () {
+        let bgImage = SKSpriteNode(imageNamed : "pokeback")
+        bgImage.position = CGPoint(x: self.frame.size.width/2, y: self.size.height/2)
+        bgImage.zPosition = 0
+    }
+    
     func createPokeball () {
         pokeball = SKSpriteNode(imageNamed: "pokeball")
         pokeball?.physicsBody?.categoryBitMask = pokeballCategory
@@ -77,8 +87,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func title() {
-        level = SKLabelNode(text: "Level: Makers4Lyf")
-        level.position = CGPoint(x:200, y: self.frame.size.height - 60)
+        level = SKLabelNode(text: "Makers4Lyf")
+        level.position = CGPoint(x:150, y: self.frame.size.height - 60)
         level.fontName = "AmericanTypewriter-Bold"
         level.fontSize = 36
         level.fontColor = UIColor.white
@@ -145,8 +155,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for node in theNodes {
                 if node.name == "ash" {
                     //Restart Game
-// 
+                    
                     self.removeAllChildren()
+                    title()
+                    label()
                     yourScore?.removeFromParent()
                     self.removeAllActions()
                     self.scene?.removeFromParent()
@@ -154,13 +166,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     yourScore?.removeFromParent()
                     score = 0
                     scoreLabel?.text = "Score: \(score)"
-//                    bgImage
+                    background ()
+                    scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode
                     startTimers()
                     createPokeball()
                 }
                 
             }
         }
+    }
+    
+    func removeRocket() {
+        // Remove all sprites named "stars"
+        self.enumerateChildNodes(withName: "rocket") {
+            node, stop in
+            node.removeFromParent();
+        }
+        
+    }
+    
+    func removeMon() {
+        // Remove all sprites named "stars"
+        self.enumerateChildNodes(withName: "pikachu") {
+            node, stop in
+            node.removeFromParent();
+        }
+        
     }
     
     override func didSimulatePhysics() {
@@ -208,7 +239,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameOver()
         }
         
-        
     }
     
     func gameOver() {
@@ -223,9 +253,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yourScore?.zPosition = 1
         yourScore?.fontSize = 100
         if yourScore != nil {
-            addChild(yourScore!)
+        addChild(yourScore!)
         }
-        
         
         let ashButton = SKSpriteNode(imageNamed: "ash")
         ashButton.position = CGPoint(x: 360, y: 500)
