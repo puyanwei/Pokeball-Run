@@ -36,7 +36,7 @@ class PokeballUITests: XCTestCase {
     
     func testLevel(){
         let app = XCUIApplication()
-        let level = app.otherElements["Level: Makers4Lyf"]
+        let level = app.otherElements["Makers4Lyf"]
         XCTAssert(level.exists)
     }
     
