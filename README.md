@@ -1,7 +1,7 @@
 # Pokeball Run!
 PokeBall Run! is an iPhone game that uses the gyroscope tilting feature to control its movement.
 
-GIF
+![Alt Text](https://github.com/rolandosorbelli/pokeball/blob/master/demo.gif)
 
 This was an one week group project by  [rolandosorbelli](https://github.com/rolandosorbelli), [pyan83](https://www.github.com/pyan83),
 [Samellenrider](https://github.com/Samellenrider), and
