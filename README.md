@@ -20,7 +20,7 @@ This was an one week group project by  [rolandosorbelli](https://github.com/rola
 - The game can be reset by tapping the screen once it has ended.
 
 ## Installation
-Clone this repository by typing `git@github.com:pyan83/pokeball.git`
+Clone this repository by typing `git clone git@github.com:pyan83/pokeball.git`
 
 You may need to sign up for a developer account at [Apple](https://developer.apple.com).
 
