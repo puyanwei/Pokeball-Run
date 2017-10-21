@@ -3,7 +3,7 @@ PokeBall Run! is an iPhone game that uses the gyroscope tilting feature to contr
 
 ![Alt Text](https://github.com/pyan83/pokeball/blob/master/demo.gif)
 
-This was an one week group project by  [rolandosorbelli](https://github.com/rolandosorbelli), [pyan83](https://www.github.com/pyan83),
+This was an one week group project by  [rolandosorbelli](https://github.com/rolandosorbelli), [puyanwei](https://www.github.com/puyanwei),
 [Samellenrider](https://github.com/Samellenrider) and
 [Denisglb](https://github.com/Denisglb). We chose to take up the challenge of learning Swift 4 from scratch without any prior knowledge of it at all.
 
